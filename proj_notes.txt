@@ -1,0 +1,51 @@
+CIS581 Project Ideas:
+
+1. Digital AR display or car windshield displaying actual directions on road (virtual billboard) with reference to gps and maps and starting to blink when we are approaching the turn (implemented using optical flow if req to add concept) .
+1.1 Add On - Can also input video feed from actual road and direction colour changes to reflect there is a red signal ahead. Requires semantic segmentation/ bounding box in real time to identify traffic lights and hence find red light 
+
+    - use google map?
+
+2. Architects tool - Using image of flat ground and drawing of proposed building, it outputs pic of actual building (texture matching - image blending) from 1 view or multiple views (image stitching). Image morphing to show the transformation.
+    - image blending - drawing and image
+
+3. Optical flow system for use by pipe inspection robot to localise itself in space as no other landmarks exist. 
+
+4. Optical flow system for robot to navigate among moving crowd. Robot moves in a path if closest expected arrival time of any person on the trajectory is above a certain threshold
+
+5. Optical flow tracking system in self driving car to predict safe lane shifting
+    track cars coming into lane and predict if they will be in the lane when the car reaches the intersection
+
+6. Self driving cars.  Swap all input image info from various cars with a standard car to make computations faster. Take 3-4 classes of vehicles and have pre computed measurements from them. Problem becomes to replace all cars in a video feed with a standard car pic. (same as face swapping asked in track 1)
+
+7. Optical tracking of curbside objects with a trajectory perpendicular to curbside to predict advanced braking options. (prevent running over child running into road)
+
+8. Take pics of F1 cars before and after the race and perform image morphing to identify regions of high wear and thermal expansion etc to aid with design team. (ig not as big in terms of a project)
+
+9. AR helmet for people suffering from social anxiety. Replaces faces of people they see with cartoon characters / something they like to make it easier for them to face the world. (project wise, almost same as track1)
+
+10. Robot to predict trajectory of mosquitoes/ other bags with optical flow to successfully swat it
+
+- face swapping
+
+- rgb-d localization and mapping
+
+- image stiching and reprojection, see birds eye view parking feature in fancy cars
+
+- night photography
+
+- 11/4 discussion
+
+
+Useful links
+
+https://github.com/ika-rwth-aachen/Cam2BEV/blob/master/preprocessing/ipm/README.md
+
+https://developer.ridgerun.com/wiki/index.php/Birds_Eye_View/Introduction/Research
+
+Goals??
+
+homography worked (planar surface)
+now we need to find ways to stich images together
+object detection/distance measurement is possible?
+
+object detection for vertical objects and project them separately
