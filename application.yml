@@ -1,0 +1,19 @@
+input:
+  lane_images_path: "lane_imgs" 
+  scene_images_path: "rgb_imgs"
+  template_car_image_path: "tesla.png"
+
+calibration:
+  file_path: "calibration/um_000000.txt"
+
+segmentation:
+  min_threshold: 0.7
+  alpha: 1.0
+
+inverse_transformation:
+  min_threshold: 0.7
+  image_dimensions: 1500
+  min_vertical_clip: 0.0
+  max_vertical_clip: 30.0
+  min_horizontal_clip: -15.0
+  max_horizontal_clip: 15.0
