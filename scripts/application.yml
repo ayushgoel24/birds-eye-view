@@ -1,0 +1,6 @@
+input:
+  lane_images_path: "lane_imgs" 
+  scene_images_path: "rgb_imgs"
+
+calibration:
+  file_path: "calibration/um_000000.txt"
