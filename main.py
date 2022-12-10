@@ -1,14 +1,10 @@
-import torch
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
 import os
 import glob
 
-from PIL import Image
 from torchvision.io import read_image
-import torchvision.transforms.functional as F
-from torchvision.utils import draw_segmentation_masks
 
 from environment import ApplicationProperties
 from helper import Helper
@@ -52,9 +48,7 @@ birds_eye_view_of_scene = InverseTransform.performInversePerspectiveTransformati
     applicationProperties.get_property_value( "inverse_transformation.max_vertical_clip" ),
     applicationProperties.get_property_value( "inverse_transformation.min_horizontal_clip" ),
     applicationProperties.get_property_value( "inverse_transformation.max_horizontal_clip" ),
-    applicationProperties.get_property_value( "inverse_transformation.image_dimensions" ),
+    applicationProperties.get_property_value( "inverse_transformation.image_dimensions" )
 )
 
-print( birds_eye_view_of_scene )
-plt.imshow(birds_eye_view_of_scene)
 cv2.imwrite("output.png", birds_eye_view_of_scene)
