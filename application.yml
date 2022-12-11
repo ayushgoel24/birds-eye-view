@@ -17,3 +17,9 @@ inverse_transformation:
   max_vertical_clip: 30.0
   min_horizontal_clip: -15.0
   max_horizontal_clip: 15.0
+
+yolo:
+  threshold: 0.5
+  out_image_height: 375
+  out_image_width: 1242
+  kernel_size: 5
