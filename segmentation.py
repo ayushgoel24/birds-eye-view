@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import torchvision.transforms.functional as F
 import numpy as np
 from torchvision.utils import draw_segmentation_masks
-
+from itertools import repeat
 class ImageSegmentation( object ):
 
     def __init__(self) -> None:
@@ -22,7 +22,7 @@ class ImageSegmentation( object ):
             axs[0, i].set( xticklabels=[], yticklabels=[], xticks=[], yticks=[] )
 
     @staticmethod
-    def performImageSegmentation( rgb_img_list:list, segmentation_threshold:float, alpha:float ) -> tuple:
+    def performImageSegmentation( pool, rgb_img_list:list, segmentation_threshold:float, alpha:float ) -> tuple:
 
         weights = MaskRCNN_ResNet50_FPN_Weights.DEFAULT
         transforms = weights.transforms()
@@ -34,6 +34,13 @@ class ImageSegmentation( object ):
             model = model.eval()
 
             output = model(images)
+        
+        images_list = pool.starmap(warp_worker, zip(repeat(src_im), 
+                                              repeat(tgt_im), 
+                                              repeat(src_pts),
+                                              repeat(tgt_pts),
+                                              range(M),
+                                              repeat(M)))
 
         img_output = output[-1]
 
@@ -48,6 +55,6 @@ class ImageSegmentation( object ):
         # ImageSegmentation.showImages( masked_img )
 
         masked_img = masked_img.numpy().transpose( 1, 2, 0 )
-        masked_img = masked_img[:, :, [ 2, 1, 0 ] ]
+        # masked_img = masked_img[:, :, [ 2, 1, 0 ] ]
 
         return ( img_output, masked_img )
