@@ -49,7 +49,7 @@ class InverseTransform( object ):
         # flip virtual image left to right
         virtual_image = virtual_image[:, ::-1, :]
         # swap red and blue channels
-        virtual_image = virtual_image[:, :, [2, 1, 0]]
+        # virtual_image = virtual_image[:, :, [2, 1, 0]]
         
         return virtual_image
 
