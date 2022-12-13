@@ -7,7 +7,7 @@ calibration:
   file_path: "calibration/um_000000.txt"
 
 segmentation:
-  min_threshold: 0.7
+  min_threshold: 0.1
   alpha: 1.0
 
 inverse_transformation:
@@ -23,3 +23,6 @@ yolo:
   out_image_height: 375
   out_image_width: 1242
   kernel_size: 5
+
+output:
+  image_directory: "output/images/"
