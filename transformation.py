@@ -1,6 +1,7 @@
 import numpy as np
 from helper import Helper
 import matplotlib.pyplot as plt
+from itertools import repeat
 
 class InverseTransform( object ):
 
@@ -54,10 +55,15 @@ class InverseTransform( object ):
         return virtual_image
 
     @staticmethod
-    def performInversePerspectiveTransformation( masked_img:np.ndarray, K:np.ndarray, img_output:dict, inverse_perspective_threshold:float, template_car:np.ndarray, min_vertical_clip:float, max_vertical_clip:float, min_horizontal_clip:float, max_horizontal_clip:float, image_dimensions:float ) -> np.ndarray:
-        inv_masked_img = InverseTransform.inverse_perspective_transform( masked_img, K, min_vertical_clip, max_vertical_clip, min_horizontal_clip, max_horizontal_clip, image_dimensions )
+    def inverse_perspective_transform_pool( image:list, K:np.ndarray, min_vertical_clip:float, max_vertical_clip:float, min_horizontal_clip:float, max_horizontal_clip:float, image_dimensions:float, counter:int ) -> np.ndarray:
+        return InverseTransform.inverse_perspective_transform( image[counter], K, min_vertical_clip, max_vertical_clip, min_horizontal_clip, max_horizontal_clip, image_dimensions )
+
+    @staticmethod
+    def performInversePerspectiveTransformationInternal( masked_img:np.ndarray, K:np.ndarray, img_output:dict, inverse_perspective_threshold:float, template_car:np.ndarray, min_vertical_clip:float, max_vertical_clip:float, min_horizontal_clip:float, max_horizontal_clip:float, image_dimensions:float, counter:int ) -> np.ndarray:
+        print("beginning performInversePerspectiveTransformationInternal", counter)
+        inv_masked_img = InverseTransform.inverse_perspective_transform( masked_img[counter], K, min_vertical_clip, max_vertical_clip, min_horizontal_clip, max_horizontal_clip, image_dimensions )
         
-        mask_bool = ( img_output['masks'] > inverse_perspective_threshold )[0][0].numpy()
+        mask_bool = ( img_output[counter]['masks'] > inverse_perspective_threshold )[0][0].numpy()
         
         bool_lower_bound = max( np.where( mask_bool > 0 )[0] )
         bool_left_bound = min( np.where( mask_bool > 0 )[1] )
@@ -77,4 +83,26 @@ class InverseTransform( object ):
                 int(bbox_bottom_mapped[1] - template_car.shape[1]/2):int(bbox_bottom_mapped[1] + template_car.shape[1]/2), :] = template_car
         
         # plt.imshow(inv_masked_img)
+        print("finished performInversePerspectiveTransformationInternal", counter)
         return inv_masked_img
+
+    @staticmethod
+    def performInversePerspectiveTransformation( pool, masked_imgs:list, K:np.ndarray, img_outputs:list, inverse_perspective_threshold:float, template_car:np.ndarray, min_vertical_clip:float, max_vertical_clip:float, min_horizontal_clip:float, max_horizontal_clip:float, image_dimensions:float ) -> np.ndarray:
+        masked_images = pool.starmap(
+            InverseTransform.performInversePerspectiveTransformationInternal, 
+            zip(
+                repeat(masked_imgs), 
+                repeat(K), 
+                repeat(img_outputs),
+                repeat(inverse_perspective_threshold),
+                repeat(template_car),
+                repeat(min_vertical_clip),
+                repeat(max_vertical_clip),
+                repeat(min_horizontal_clip),
+                repeat(max_horizontal_clip),
+                repeat(image_dimensions),
+                range(len(masked_imgs))
+            )
+        )
+        print("images passed to pool")
+        return masked_images
